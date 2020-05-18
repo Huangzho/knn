@@ -1,0 +1,17 @@
+import operator
+import struct
+import numpy as np
+from matplotlib import pyplot as plt  
+#图片的大小
+IMAGE_ROW = 28
+IMAGE_COL = 28
+IMAGE_SIZE = 28*28
+
+# 训练集
+train_images_idx3_ubyte_file = 'train-images.idx3-ubyte'
+# 训练集标签
+train_labels_idx1_ubyte_file = 'train-labels.idx1-ubyte'
+# 测试集
+test_images_idx3_ubyte_file = 't10k-images.idx3-ubyte'
+# 测试集标签
+test_labels_idx1_ubyte_file = 't10k-labels.idx1-ubyte'
