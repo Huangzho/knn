@@ -1,4 +1,4 @@
-def decode_idx3_ubyte(idx3_ubyte_file):#图片信息
+def decode_idx3_ubyte(idx3_ubyte_file):
     bin_data = open(idx3_ubyte_file, 'rb').read()
  
     # 解析文件头信息，依次为魔数、图片数量、每张图片高、每张图片宽,offset 偏移//INFORMATION
@@ -11,16 +11,16 @@ def decode_idx3_ubyte(idx3_ubyte_file):#图片信息
     image_size = num_rows * num_cols
     offset += struct.calcsize(fmt_header)#偏移移到第一个图片上面
     fmt_image = '>' + str(image_size) + 'B'#大端存储，图片偏移个数，BIT
-    images = np.empty((num_images, image_size))#数据元素不为空，为随机产生的函数
+    images = np.zeros((num_images, image_size))#数据元素不为空，为随机产生的函数
     for i in range(num_images):
         if (i + 1) % 10000 == 0:
             print ('已解析 %d' % (i + 1) + '张')
-        images[i] = np.array(struct.unpack_from(fmt_image, bin_data, offset))
+        images[i] = (np.array(struct.unpack_from(fmt_image, bin_data, offset))/128).astype(int)#二值化
         offset += struct.calcsize(fmt_image)
     return images
  
  
-def decode_idx1_ubyte(idx1_ubyte_file):#标签信息
+def decode_idx1_ubyte(idx1_ubyte_file):
     bin_data = open(idx1_ubyte_file, 'rb').read()
  
     # 解析文件头信息，依次为魔数和标签数//RABEL
