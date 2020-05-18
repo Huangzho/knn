@@ -1,0 +1,14 @@
+def onecheck(trainingMat,train_labels,test_images,test_labels,k):#训练集，训练集标签，k取值，测试集标签
+    m=1
+    while True:
+        print("输入0退出")
+        m=int(input())
+        if m==0:
+            break
+        a = input('输入测试样本偏移:')
+        a=int(a)
+        vectorUnderTest = np.zeros(784)#单个测试验证空间
+        for i in range(784):
+                vectorUnderTest[i] = test_images[a][i]  #第type_ret幅测试图
+        Result=classify(vectorUnderTest, trainingMat, train_labels, k,1)
+        print("识别结果：%d 正确答案：%d" % (Result, test_labels[a]))
