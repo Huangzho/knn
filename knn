@@ -24,10 +24,7 @@ def classify(inX,dataset,labels,k,func):#测试向量，训练数据集，训练
             image = np.ones((28,28))
             for row in range(IMAGE_ROW):
                 for col in range(IMAGE_COL):
-                    if dataset[sortedDistIndicies[index]][row*IMAGE_ROW+col]<127:
-                        image[row][col] = 0
-                    else: image[row][col]=1
-                    #print(image_list[index])		
+                    image[row][col]=dataset[sortedDistIndicies[index]][row*IMAGE_ROW+col]	
             label = labels[sortedDistIndicies[index]]
             print('LABEL=',label)
             #print(image)
