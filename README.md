@@ -1,1 +1,1 @@
-# knn
+# knn for minst handwriting data
