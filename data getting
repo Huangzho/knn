@@ -1,4 +1,4 @@
-def decode_idx3_ubyte(idx3_ubyte_file):
+def decode_idx3_ubyte(idx3_ubyte_file):#图片信息
     bin_data = open(idx3_ubyte_file, 'rb').read()
  
     # 解析文件头信息，依次为魔数、图片数量、每张图片高、每张图片宽,offset 偏移//INFORMATION
@@ -20,7 +20,7 @@ def decode_idx3_ubyte(idx3_ubyte_file):
     return images
  
  
-def decode_idx1_ubyte(idx1_ubyte_file):
+def decode_idx1_ubyte(idx1_ubyte_file):#标签信息
     bin_data = open(idx1_ubyte_file, 'rb').read()
  
     # 解析文件头信息，依次为魔数和标签数//RABEL
