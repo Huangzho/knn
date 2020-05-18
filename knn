@@ -1,0 +1,37 @@
+def classify(inX,dataset,labels,k,func):#测试向量，训练数据集，训练标签集，k取值，功能选项（是否输出最近图片）
+
+    diffMat = np.tile(inX,(dataset.shape[0],1))-dataset
+    sqDiffMat = diffMat**2
+    sqDistances = sqDiffMat.sum(axis=1)
+    distances = sqDistances ** 0.5
+    ###以上是距离计算公式
+    #距离从大到小排序，返回距离的序号
+    sortedDistIndicies = distances.argsort()#从小到大排列
+    #字典
+    classCount = {}
+    #前K个距离最小的
+    for i in range(k):
+        #sortedDistIndicies[0]返回的是距离最小的数据样本的序号
+        #labels[sortedDistIndicies[0]]距离最小的数据样本的标签
+        voteIlabel = labels[sortedDistIndicies[i]]
+        #以标签为key,支持该标签+1
+        classCount[voteIlabel] = classCount.get(voteIlabel, 0) + 1
+        
+    #排序sorted 单独生成一个空间
+    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
+    if func:
+        for index in range(k):#画图，imshow可以直接读array数据：
+            image = np.ones((28,28))
+            for row in range(IMAGE_ROW):
+                for col in range(IMAGE_COL):
+                    if dataset[sortedDistIndicies[index]][row*IMAGE_ROW+col]<127:
+                        image[row][col] = 0
+                    else: image[row][col]=1
+                    #print(image_list[index])		
+            label = labels[sortedDistIndicies[index]]
+            print('LABEL=',label)
+            #print(image)
+            plt.imshow(image)
+            plt.title('picture no=%d,label=%d'%(index,label))#在图片标题栏显示读到的标签数据
+            plt.show()
+    return sortedClassCount[0][0]
