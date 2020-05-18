@@ -1,0 +1,12 @@
+def alltest(trainingMat,train_labels,test_images,test_labels,k):
+    testsize=test_images.shape[0]
+    m=0
+    for i in range(500):
+        if (i+1)%500==0 : print("500张验证完毕")
+        vectorUnderTest = np.zeros(784)#单个测试验证空间
+        for a in range(784):
+                vectorUnderTest[a] = test_images[i][a]  #第type_ret幅测试图
+        Result=classify(vectorUnderTest, trainingMat, train_labels, k,0)
+        if test_labels[i]!=Result: m=m+1
+    print("正确率为{:.9f}".format((testsize-m)/testsize))
+    return m
