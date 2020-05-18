@@ -1,0 +1,41 @@
+def decode_idx3_ubyte(idx3_ubyte_file):
+    bin_data = open(idx3_ubyte_file, 'rb').read()
+ 
+    # 解析文件头信息，依次为魔数、图片数量、每张图片高、每张图片宽,offset 偏移//INFORMATION
+    offset = 0
+    fmt_header = '>iiii' #大端存储，4个整数
+    magic_number, num_images, num_rows,num_cols = struct.unpack_from(fmt_header, bin_data, offset)#对字符串流的解析，前面为解析格式，起点，偏移
+    print('魔数:%d, 图片数量: %d张, 图片大小: %d*%d'  % (magic_number, num_images, num_rows, num_cols))
+ 
+    # 解析数据集
+    image_size = num_rows * num_cols
+    offset += struct.calcsize(fmt_header)#偏移移到第一个图片上面
+    fmt_image = '>' + str(image_size) + 'B'#大端存储，图片偏移个数，BIT
+    images = np.empty((num_images, image_size))#数据元素不为空，为随机产生的函数
+    for i in range(num_images):
+        if (i + 1) % 10000 == 0:
+            print ('已解析 %d' % (i + 1) + '张')
+        images[i] = np.array(struct.unpack_from(fmt_image, bin_data, offset))
+        offset += struct.calcsize(fmt_image)
+    return images
+ 
+ 
+def decode_idx1_ubyte(idx1_ubyte_file):
+    bin_data = open(idx1_ubyte_file, 'rb').read()
+ 
+    # 解析文件头信息，依次为魔数和标签数//RABEL
+    offset = 0
+    fmt_header = '>ii'
+    magic_number, num_images = struct.unpack_from(fmt_header, bin_data, offset)
+    print ('魔数:%d, 图片数量: %d张' % (magic_number, num_images))
+ 
+    # 解析数据集
+    offset += struct.calcsize(fmt_header)
+    fmt_image = '>B'
+    labels = np.empty(num_images)
+    for i in range(num_images):
+        if (i + 1) % 10000 == 0:
+            print ('已解析 %d' % (i + 1) + '张')
+        labels[i] = struct.unpack_from(fmt_image, bin_data, offset)[0]
+        offset += struct.calcsize(fmt_image)
+    return labels
