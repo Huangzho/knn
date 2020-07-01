@@ -9,6 +9,6 @@ def onecheck(trainingMat,train_labels,test_images,test_labels,k):#训练集，�
         a=int(a)
         vectorUnderTest = np.zeros(784)#单个测试验证空间
         for i in range(784):
-                vectorUnderTest[i] = test_images[a][i]  #第type_ret幅测试图
+                vectorUnderTest[i] = test_images[a][i]  #第a幅测试图
         Result=classify(vectorUnderTest, trainingMat, train_labels, k,1)
         print("识别结果：%d 正确答案：%d" % (Result, test_labels[a]))
